@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:columnCount="2"
+        app:rowCount="2">
+
+        <Button
+            android:id="@+id/add_doc"
+            android:layout_width="185dp"
+            android:layout_height="100dp"
+            android:textSize="15sp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:text="@string/add_doc"
+            app:layout_column="0"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/list_doc"
+            android:layout_width="185dp"
+            android:layout_height="100dp"
+            android:textSize="15sp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:text="@string/list_doc"
+            app:layout_column="1"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/update_directories"
+            android:layout_width="185dp"
+            android:layout_height="100dp"
+            android:textSize="15sp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:text="@string/update_directories"
+            app:layout_column="0"
+            app:layout_row="1"
+            app:layout_gravity="fill_horizontal"
+            app:layout_columnSpan="2"/>
+    </android.support.v7.widget.GridLayout>
+
+</android.support.constraint.ConstraintLayout>

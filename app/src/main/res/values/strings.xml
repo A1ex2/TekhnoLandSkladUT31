@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Sklad</string>
+    <string name="add_doc">Добавить документ</string>
+    <string name="list_doc">Открыть список</string>
+    <string name="update_directories">Обновить справочники</string>
+    <string name="input_residues">Ввод остатков</string>
+</resources>

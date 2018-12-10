@@ -8,9 +8,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class Password extends AppCompatActivity {
-    private EditText login;
-    private EditText password;
-    private Button ok;
+    public EditText login;
+    public EditText password;
+    public Button ok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +24,16 @@ public class Password extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Все ОК", Toast.LENGTH_LONG);
+                String mLogin = "Админ";
+                String mPassword = "1";
+
+                if (login.getText().toString().equals(mLogin) && password.getText().toString().equals(mPassword)) {
+                    Toast.makeText(getApplicationContext(), R.string.success, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_LONG).show();
+                    finish();
+                }
             }
         });
-
     }
 }

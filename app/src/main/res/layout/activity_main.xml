@@ -6,49 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:columnCount="2"
-        app:rowCount="2">
 
-        <Button
-            android:id="@+id/add_doc"
-            android:layout_width="185dp"
-            android:layout_height="100dp"
-            android:textSize="15sp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="2dp"
-            android:text="@string/add_doc"
-            app:layout_column="0"
-            app:layout_row="0" />
+    <Button
+        android:id="@+id/add_doc"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="2dp"
+        android:drawableStart="@drawable/ic_add_black_24dp"
+        android:text="@string/add_doc"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/list_doc"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <Button
-            android:id="@+id/list_doc"
-            android:layout_width="185dp"
-            android:layout_height="100dp"
-            android:textSize="15sp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="2dp"
-            android:text="@string/list_doc"
-            app:layout_column="1"
-            app:layout_row="0" />
+    <Button
+        android:id="@+id/list_doc"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/ic_view_list_black_24dp"
+        android:text="@string/list_doc"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/add_doc"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/update_directories"
-            android:layout_width="185dp"
-            android:layout_height="100dp"
-            android:textSize="15sp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="2dp"
-            android:text="@string/update_directories"
-            app:layout_column="0"
-            app:layout_row="1"
-            app:layout_gravity="fill_horizontal"
-            app:layout_columnSpan="2"/>
-    </android.support.v7.widget.GridLayout>
+    <Button
+        android:id="@+id/update_directories"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/ic_update_black_24dp"
+        android:text="@string/update_directories"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/list_doc"
+        app:layout_constraintStart_toStartOf="@+id/add_doc"
+        app:layout_constraintTop_toBottomOf="@+id/add_doc"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -16,7 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Password"></activity>
+        <activity android:name=".Password" />
+        <activity android:name=".ListOfDocumentsResidueEntry" />
+        <activity android:name=".DocumentResidueEntry"></activity>
     </application>
 
 </manifest>

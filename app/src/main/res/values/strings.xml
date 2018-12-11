@@ -4,8 +4,10 @@
     <string name="list_doc">Открыть список</string>
     <string name="update_directories">Обновить справочники</string>
     <string name="input_residues">Ввод остатков</string>
-    <string name="password_form_header">Введите логин пароль...</string>
+    <string name="password_form_header">Ваш логин/пароль...</string>
     <string name="login">логин</string>
     <string name="password">пароль</string>
     <string name="butt_OK">OK</string>
+    <string name="success">Все ОК</string>
+    <string name="error">Доступ запрещен!</string>
 </resources>

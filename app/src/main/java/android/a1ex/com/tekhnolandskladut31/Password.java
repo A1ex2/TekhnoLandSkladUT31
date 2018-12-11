@@ -1,5 +1,6 @@
 package android.a1ex.com.tekhnolandskladut31;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,9 +30,13 @@ public class Password extends AppCompatActivity {
 
                 if (login.getText().toString().equals(mLogin) && password.getText().toString().equals(mPassword)) {
                     Toast.makeText(getApplicationContext(), R.string.success, Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent();
+                    intent.putExtra("result", true);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_LONG).show();
-                    finish();
                 }
             }
         });

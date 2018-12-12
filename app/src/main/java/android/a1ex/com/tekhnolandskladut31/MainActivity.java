@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data == null){
-            finish();
+            //finish();
         } else {
             Boolean mOK = true;
 

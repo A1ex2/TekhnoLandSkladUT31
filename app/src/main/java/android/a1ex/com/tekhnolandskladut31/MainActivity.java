@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     public Button add_doc;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         list_doc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Password.class);
+                Intent intent = new Intent(MainActivity.this, ListOfDocumentsResidueEntry.class);
                 startActivity(intent);
             }
         });
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         update_directories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(getApplicationContext(), "Запущена загрузка в фоне...", Toast.LENGTH_LONG).show();
             }
         });
     }

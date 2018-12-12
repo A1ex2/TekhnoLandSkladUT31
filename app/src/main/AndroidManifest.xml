@@ -24,9 +24,6 @@
         <activity android:name=".Password" />
         <activity android:name=".ListOfDocumentsResidueEntry" />
         <activity android:name=".DocumentResidueEntry" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
     </application>
 
 </manifest>

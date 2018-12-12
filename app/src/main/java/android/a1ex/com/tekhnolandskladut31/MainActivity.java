@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, DocumentResidueEntry.class);
-                startActivityForResult(intent, 1);
+                startActivity(intent);
             }
         });
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Password.class);
-                startActivityForResult(intent, 1);
+                startActivity(intent);
             }
         });
 

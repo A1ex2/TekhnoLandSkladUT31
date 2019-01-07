@@ -13,5 +13,8 @@
     <string name="title_activity_login">Sign in</string>
     <string name="new_doc">Новый документ</string>
     <string name="list_doc">Список документов</string>
-
+    <string name="save_doc">Записать документ</string>
+    <string name="push_doc">Отправить документ в ЦБ</string>
+    <string name="products">Товары</string>
+    <string name="cells">Ячейки</string>
 </resources>

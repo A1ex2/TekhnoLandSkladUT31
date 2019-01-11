@@ -1,4 +1,4 @@
-package android.a1ex.com.tekhnolandskladut31;
+package android.a1ex.com.sklad_tsd;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

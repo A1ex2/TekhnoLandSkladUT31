@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="android.a1ex.com.tekhnolandskladut31">
+    package="android.a1ex.com.sklad_tsd">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -14,18 +14,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="android.a1ex.com.sklad_tsd.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Password" />
-        <activity android:name=".ListOfDocuments" />
-        <activity android:name=".DocumentView" />
-        <activity android:name=".ListCells" />
-        <activity android:name=".ListProducts"></activity>
+        <activity android:name="android.a1ex.com.sklad_tsd.Password" />
+        <activity android:name="android.a1ex.com.sklad_tsd.Lists.ListOfDocuments" />
+        <activity android:name="android.a1ex.com.sklad_tsd.DocumentView" />
+        <activity android:name="android.a1ex.com.sklad_tsd.Lists.ListCells" />
+        <activity android:name="android.a1ex.com.sklad_tsd.Lists.ListProducts" />
+
+        <service
+            android:name="android.a1ex.com.sklad_tsd.MyIntentService.IntentServiceDataBase"
+            android:exported="false"></service>
     </application>
 
 </manifest>

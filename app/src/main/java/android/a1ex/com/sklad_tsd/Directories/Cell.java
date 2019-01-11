@@ -1,4 +1,4 @@
-package android.a1ex.com.tekhnolandskladut31.Directories;
+package android.a1ex.com.sklad_tsd.Directories;
 
 public class Cell {
     public static final String TABLE_NAME = "Cells";

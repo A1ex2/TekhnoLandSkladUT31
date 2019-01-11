@@ -1,4 +1,4 @@
-package android.a1ex.com.tekhnolandskladut31.DataBase;
+package android.a1ex.com.sklad_tsd.DataBase;
 
 public class ProductsOfDocuments {
     public static final String TABLE_NAME = "ProductsOfDocuments";

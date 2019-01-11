@@ -1,8 +1,9 @@
-package android.a1ex.com.tekhnolandskladut31;
+package android.a1ex.com.sklad_tsd.Lists;
 
-import android.a1ex.com.tekhnolandskladut31.DataBase.DataBaseHelper;
-import android.a1ex.com.tekhnolandskladut31.Directories.Cell;
-import android.a1ex.com.tekhnolandskladut31.Directories.Product;
+import android.a1ex.com.sklad_tsd.DataBase.DataBaseHelper;
+import android.a1ex.com.sklad_tsd.Directories.Cell;
+import android.a1ex.com.sklad_tsd.R;
+import android.a1ex.com.sklad_tsd.RecyclerAdapters.RecyclerAdapterCells;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,29 +11,31 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ListProducts extends AppCompatActivity {
+public class ListCells extends AppCompatActivity {
+
     private DataBaseHelper helper;
     private RecyclerView recycler;
-    private ArrayList<Product> mProducts = new ArrayList<>();
-    private RecyclerAdapterProducts adapter;
+    private ArrayList<Cell> mCells = new ArrayList<>();
+    private RecyclerAdapterCells adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_products);
+        setContentView(R.layout.activity_list_cells);
 
-        recycler = findViewById(R.id.recyclerProducts);
+        recycler = findViewById(R.id.recyclerCells);
         helper = new DataBaseHelper(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recycler.setLayoutManager(layoutManager);
 
-        adapter = new RecyclerAdapterProducts(this, R.layout.products_item, mProducts);
+        adapter = new RecyclerAdapterCells(this, R.layout.cells_item, mCells);
         recycler.setAdapter(adapter);
 
-        adapter.setActionListener(new RecyclerAdapterProducts.ActionListener() {
+        adapter.setActionListener(new RecyclerAdapterCells.ActionListener() {
             @Override
-            public void onClick(Product product) {
+            public void onClick(Cell cell) {
 //                Intent intent = new Intent(ListCells.this, ActivityGroup.class);
 //                intent.putExtra(EXTRA_GROUP, group);
 //                startActivityForResult(intent, REQUEST_CODE);
@@ -43,10 +46,10 @@ public class ListProducts extends AppCompatActivity {
     }
 
     private void initList() {
-        ArrayList<Product> items = helper.getProducts();
+        ArrayList<Cell> items = helper.getCells();
 
-        mProducts.clear();
-        mProducts.addAll(items);
+        mCells.clear();
+        mCells.addAll(items);
 
         adapter.notifyDataSetChanged();
     }

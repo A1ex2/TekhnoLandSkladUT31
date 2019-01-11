@@ -1,4 +1,4 @@
-package android.a1ex.com.tekhnolandskladut31.Directories;
+package android.a1ex.com.sklad_tsd.Directories;
 
 public class Product {
     public static final String TABLE_NAME = "Products";
@@ -32,7 +32,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return name + " (" + vendorCode + ")";
+        return vendorCode + " / " + name;
     }
 
     public long getId() {

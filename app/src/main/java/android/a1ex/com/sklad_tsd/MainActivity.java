@@ -1,8 +1,9 @@
-package android.a1ex.com.tekhnolandskladut31;
+package android.a1ex.com.sklad_tsd;
 
-import android.a1ex.com.tekhnolandskladut31.DataBase.DataBaseHelper;
-import android.a1ex.com.tekhnolandskladut31.Directories.Cell;
-import android.a1ex.com.tekhnolandskladut31.Directories.Product;
+import android.a1ex.com.sklad_tsd.DataBase.DataBaseHelper;
+import android.a1ex.com.sklad_tsd.Lists.ListCells;
+import android.a1ex.com.sklad_tsd.Lists.ListOfDocuments;
+import android.a1ex.com.sklad_tsd.Lists.ListProducts;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -56,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
 //                    helper.insertCell(new Cell("Cell" + i, "Cell" + i));
 //                }
 
-                for (int i = 0; i < 500; i++) {
-                    helper.insertProduct(new Product("Product " + i, "A" + i + "A" + i));
-                }
+//                for (int i = 0; i < 500; i++) {
+//                    helper.insertProduct(new Product("Product " + i, "A" + i + "A" + i));
+//                }
             }
         });
     }

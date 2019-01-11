@@ -17,4 +17,8 @@
     <string name="push_doc">Отправить документ в ЦБ</string>
     <string name="products">Товары</string>
     <string name="cells">Ячейки</string>
+    <string-array name="type_doc">
+        <item>ввод остатка</item>
+        <item>пересчет</item>
+    </string-array>
 </resources>

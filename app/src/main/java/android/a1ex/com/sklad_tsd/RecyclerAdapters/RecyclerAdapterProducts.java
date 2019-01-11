@@ -1,6 +1,7 @@
-package android.a1ex.com.tekhnolandskladut31;
+package android.a1ex.com.sklad_tsd.RecyclerAdapters;
 
-import android.a1ex.com.tekhnolandskladut31.Directories.Cell;
+import android.a1ex.com.sklad_tsd.Directories.Product;
+import android.a1ex.com.sklad_tsd.R;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,24 +11,24 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapterCells extends RecyclerView.Adapter<RecyclerAdapterCells.GroupViewHolder> {
+public class RecyclerAdapterProducts extends RecyclerView.Adapter<RecyclerAdapterProducts.GroupViewHolder> {
     private int mResourse;
-    private ArrayList<Cell> mCells;
+    private ArrayList<Product> mProducts;
     private LayoutInflater mInflater;
 
-    public RecyclerAdapterCells(Context context, int resourse, ArrayList<Cell> groups){
+    public RecyclerAdapterProducts(Context context, int resourse, ArrayList<Product> groups) {
         mResourse = resourse;
-        mCells = groups;
+        mProducts = groups;
         mInflater = LayoutInflater.from(context);
     }
 
     public interface ActionListener {
-        void onClick(Cell cell);
+        void onClick(Product product);
     }
 
     private ActionListener mListener;
 
-    public void setActionListener(ActionListener listener){
+    public void setActionListener(ActionListener listener) {
         mListener = listener;
     }
 
@@ -39,14 +40,14 @@ public class RecyclerAdapterCells extends RecyclerView.Adapter<RecyclerAdapterCe
 
     @Override
     public void onBindViewHolder(GroupViewHolder groupViewHolder, int i) {
-        final Cell cell = mCells.get(i);
-        groupViewHolder.set(cell);
+        final Product product = mProducts.get(i);
+        groupViewHolder.set(product);
 
-        if (mListener != null){
+        if (mListener != null) {
             groupViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onClick(cell);
+                    mListener.onClick(product);
                 }
             });
         }
@@ -54,20 +55,20 @@ public class RecyclerAdapterCells extends RecyclerView.Adapter<RecyclerAdapterCe
 
     @Override
     public int getItemCount() {
-        return mCells.size();
+        return mProducts.size();
     }
 
     public class GroupViewHolder extends RecyclerView.ViewHolder {
         private TextView mName;
 
-        public GroupViewHolder( View itemView) {
+        public GroupViewHolder(View itemView) {
             super(itemView);
 
-            mName = itemView.findViewById(R.id.nameCell);
+            mName = itemView.findViewById(R.id.nameProduct);
         }
 
-        public void set(Cell cell){
-            mName.setText(cell.name);
+        public void set(Product product) {
+            mName.setText(product.toString());
         }
     }
 }

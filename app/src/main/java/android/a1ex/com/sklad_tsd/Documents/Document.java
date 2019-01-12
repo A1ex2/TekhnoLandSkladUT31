@@ -1,7 +1,13 @@
 package android.a1ex.com.sklad_tsd.Documents;
 
+import android.a1ex.com.sklad_tsd.R;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,16 +30,16 @@ public class Document implements Parcelable {
 
     @Override
     public String toString() {
-        return type + " " + id + " от " + dateToFormat(dateCreate);
+        return type + " " + id + " от " + dateToFormat();
     }
 
-    private String dateToFormat(Date date) {
+    public String dateToFormat() {
         String retval = "";
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        if (date == null) {
+        if (dateCreate == null) {
             return retval;
         }
-        retval = sdf.format(date);
+        retval = sdf.format(dateCreate);
         return retval;
     }
 

@@ -1,5 +1,6 @@
 package android.a1ex.com.sklad_tsd.Lists;
 
+import android.a1ex.com.sklad_tsd.DocumentView;
 import android.a1ex.com.sklad_tsd.Documents.Document;
 import android.a1ex.com.sklad_tsd.Loaders.DocumentLoader;
 import android.a1ex.com.sklad_tsd.R;
@@ -16,8 +17,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ListOfDocuments extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Document>>{
     private Spinner mSpinner;
@@ -26,6 +29,9 @@ public class ListOfDocuments extends AppCompatActivity implements LoaderManager.
     private RecyclerView recycler;
     private RecyclerAdapterDocuments adapter;
     private ArrayList<Document> mDocuments = new ArrayList<>();
+
+    public static final String EXTRA_DOCUMENT = "android.a1ex.com.homework10.extra.DOCUMENT";
+    private static final int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +65,9 @@ public class ListOfDocuments extends AppCompatActivity implements LoaderManager.
         adapter.setActionListener(new RecyclerAdapterDocuments.ActionListener() {
             @Override
             public void onClick(Document document) {
-//                Intent intent = new Intent(ListOfDocuments.this, DocumentView.class);
-//                intent.putExtra(EXTRA_GROUP, group);
-//                startActivityForResult(intent, REQUEST_CODE);
+                Intent intent = new Intent(ListOfDocuments.this, DocumentView.class);
+                intent.putExtra(EXTRA_DOCUMENT, document);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 

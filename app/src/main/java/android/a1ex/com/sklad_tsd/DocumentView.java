@@ -1,27 +1,38 @@
 package android.a1ex.com.sklad_tsd;
 
 import android.a1ex.com.sklad_tsd.DataBase.DataBaseHelper;
+import android.a1ex.com.sklad_tsd.Directories.Cell;
 import android.a1ex.com.sklad_tsd.Documents.Document;
+import android.a1ex.com.sklad_tsd.Fragments.DocumentCells;
 import android.a1ex.com.sklad_tsd.Lists.ListOfDocuments;
+import android.a1ex.com.sklad_tsd.Loaders.DocumentCellsLoader;
 import android.a1ex.com.sklad_tsd.MyIntentService.IntentServiceDataBase;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DocumentView extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class DocumentView extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Cell>> {
     private Spinner mSpinner;
     private Document mDocument;
     private TextView dateDoc;
     private String[] typeDoc;
+
+    private ArrayList<Cell> mCells;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +58,18 @@ public class DocumentView extends AppCompatActivity {
             mSpinner.setEnabled(false);
         }
 
-        FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
-        DocumentCells docCells = new DocumentCells();
-        fTrans.add(R.id.docRoot, docCells);
-        fTrans.commit();
-
         toGetData();
+    }
 
+    public void addCell(View view) {
+        
     }
 
     private void toGetData() {
         mSpinner.setSelection(getPositionType(mDocument.type));
         dateDoc.setText(mDocument.dateToFormat());
 
+        getSupportLoaderManager().initLoader(0, null, this);
     }
 
     private int getPositionType(String type) {
@@ -111,6 +121,26 @@ public class DocumentView extends AppCompatActivity {
         }
     }
 
+    @NonNull
+    @Override
+    public Loader<ArrayList<Cell>> onCreateLoader(int i, @Nullable Bundle bundle) {
+        return new DocumentCellsLoader(this, mDocument.id);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<ArrayList<Cell>> loader, ArrayList<Cell> cells) {
+        showCells(cells);
+    }
+
+    private void showCells(ArrayList<Cell> cells) {
+        DocumentCells mDocCells = DocumentCells.newDocumentCells(cells);
+        getSupportFragmentManager().beginTransaction().replace(R.id.docRoot, mDocCells).commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<ArrayList<Cell>> loader) {
+    }
+
     public class SaveDocument extends AsyncTask<Document, Void, Long> {
 
         @Override
@@ -131,7 +161,6 @@ public class DocumentView extends AppCompatActivity {
             super.onPostExecute(id);
 
             mDocument.id = id;
-
         }
     }
 }

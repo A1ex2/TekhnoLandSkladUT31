@@ -1,6 +1,9 @@
 package android.a1ex.com.sklad_tsd.Directories;
 
-public class Cell {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Cell implements Parcelable {
     public static final String TABLE_NAME = "Cells";
 
     public static final String COLUM_ID = "_id";
@@ -43,4 +46,34 @@ public class Cell {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.address);
+        dest.writeString(this.name);
+    }
+
+    protected Cell(Parcel in) {
+        this.id = in.readLong();
+        this.address = in.readString();
+        this.name = in.readString();
+    }
+
+    public static final Creator<Cell> CREATOR = new Creator<Cell>() {
+        @Override
+        public Cell createFromParcel(Parcel source) {
+            return new Cell(source);
+        }
+
+        @Override
+        public Cell[] newArray(int size) {
+            return new Cell[size];
+        }
+    };
 }

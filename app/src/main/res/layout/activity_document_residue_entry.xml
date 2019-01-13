@@ -29,7 +29,8 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:focusable="false"/>
 
             <EditText
                 android:id="@+id/dateDoc"
@@ -38,8 +39,25 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="date"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="01.01.2019"
+                android:focusable="false"/>
         </LinearLayout>
+
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/addCell"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/ic_add_black_24dp"
+        android:gravity="bottom|end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="addCell"/>
 
 </android.support.constraint.ConstraintLayout>

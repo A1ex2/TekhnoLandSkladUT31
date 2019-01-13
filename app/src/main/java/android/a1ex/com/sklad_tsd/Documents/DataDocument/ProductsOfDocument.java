@@ -1,7 +1,7 @@
-package android.a1ex.com.sklad_tsd.DataBase;
+package android.a1ex.com.sklad_tsd.Documents.DataDocument;
 
-public class ProductsOfDocuments {
-    public static final String TABLE_NAME = "ProductsOfDocuments";
+public class ProductsOfDocument {
+    public static final String TABLE_NAME = "ProductsOfDocument";
 
     public static final String COLUM_ID = "_id";
     public static final String COLUM_ID_DOCUMENT = "_idDocument";

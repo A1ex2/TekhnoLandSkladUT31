@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.a1ex.com.tekhnolandskladut31.R;
+import android.a1ex.com.sklad_tsd.R;
 
 /**
  * A simple {@link Fragment} subclass.

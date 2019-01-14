@@ -12,6 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,7 +24,7 @@ public class DocumentCells extends Fragment {
     private RecyclerView mRecyclerView;
 
 
-    public static final DocumentCells newDocumentCells(ArrayList<Cell> mCells){
+    public static final DocumentCells newDocumentCells(ArrayList<Cell> mCells) {
         DocumentCells documentCells = new DocumentCells();
 
         Bundle args = new Bundle();
@@ -47,17 +50,36 @@ public class DocumentCells extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_document_cells, container, false);
+
         mRecyclerView = view.findViewById(R.id.recyclerCellsDocument);
         init();
 
         return view;
     }
 
-    private void init(){
+    private void init() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
         RecyclerAdapterCells adapter = new RecyclerAdapterCells(getActivity(), R.layout.cells_item, mCells);
         mRecyclerView.setAdapter(adapter);
+        adapter.setActionListener(mClick);
+    }
+
+    private RecyclerAdapterCells.ActionListener mClick = new RecyclerAdapterCells.ActionListener() {
+        @Override
+        public void onClick(Cell cell) {
+            mActionListener.edit(cell);
+        }
+    };
+
+    public interface ActionListener {
+        public void edit(Cell cell);
+    }
+
+    private ActionListener mActionListener;
+
+    public void setActionListener(ActionListener actionListener) {
+        mActionListener = actionListener;
     }
 }

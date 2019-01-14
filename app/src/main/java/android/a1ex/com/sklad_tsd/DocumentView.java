@@ -3,6 +3,7 @@ package android.a1ex.com.sklad_tsd;
 import android.a1ex.com.sklad_tsd.DataBase.DataBaseHelper;
 import android.a1ex.com.sklad_tsd.Directories.Cell;
 import android.a1ex.com.sklad_tsd.Documents.Document;
+import android.a1ex.com.sklad_tsd.Fragments.CellProducts;
 import android.a1ex.com.sklad_tsd.Fragments.DocumentCells;
 import android.a1ex.com.sklad_tsd.Lists.ListOfDocuments;
 import android.a1ex.com.sklad_tsd.Loaders.DocumentCellsLoader;
@@ -19,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +40,14 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document_residue_entry);
+
+        Button addCell = findViewById(R.id.addCell);
+        addCell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editCell(new Cell());
+            }
+        });
 
         typeDoc = getResources().getStringArray(R.array.type_doc);
         dateDoc = findViewById(R.id.dateDoc);
@@ -134,7 +144,19 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
 
     private void showCells(ArrayList<Cell> cells) {
         DocumentCells mDocCells = DocumentCells.newDocumentCells(cells);
+        mDocCells.setActionListener(new DocumentCells.ActionListener() {
+            @Override
+            public void edit(Cell cell) {
+                edit(cell);
+            }
+        });
+
         getSupportFragmentManager().beginTransaction().replace(R.id.docRoot, mDocCells).commitAllowingStateLoss();
+    }
+
+    private void editCell(Cell cell){
+        CellProducts cellProducts = new CellProducts();
+        getSupportFragmentManager().beginTransaction().replace(R.id.docRoot, cellProducts).commit();
     }
 
     @Override

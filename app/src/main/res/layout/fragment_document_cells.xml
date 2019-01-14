@@ -9,8 +9,20 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerCellsDocument"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="50dp">
 
     </android.support.v7.widget.RecyclerView>
+
+    <!--<Button-->
+        <!--android:id="@+id/addCell"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_gravity="end|bottom"-->
+        <!--android:layout_marginEnd="40dp"-->
+        <!--android:layout_marginBottom="40dp"-->
+        <!--android:background="@android:drawable/ic_input_add"-->
+        <!--android:gravity="bottom|end"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent" />-->
 
 </FrameLayout>

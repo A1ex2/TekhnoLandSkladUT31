@@ -2,11 +2,13 @@ package android.a1ex.com.sklad_tsd;
 
 import android.a1ex.com.sklad_tsd.DataBase.DataBaseHelper;
 import android.a1ex.com.sklad_tsd.Directories.Cell;
+import android.a1ex.com.sklad_tsd.Documents.DataDocument.ProductsOfDocument;
 import android.a1ex.com.sklad_tsd.Documents.Document;
 import android.a1ex.com.sklad_tsd.Fragments.CellProducts;
 import android.a1ex.com.sklad_tsd.Fragments.DocumentCells;
 import android.a1ex.com.sklad_tsd.Lists.ListOfDocuments;
 import android.a1ex.com.sklad_tsd.Loaders.DocumentCellsLoader;
+import android.a1ex.com.sklad_tsd.Loaders.DocumentProductsCellLoader;
 import android.a1ex.com.sklad_tsd.MyIntentService.IntentServiceDataBase;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -26,16 +28,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class DocumentView extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Cell>> {
+public class DocumentView extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
     private Spinner mSpinner;
     private Document mDocument;
     private TextView dateDoc;
     private String[] typeDoc;
     private Button addCell;
-
     private ArrayList<Cell> mCells;
 
+    private static final int LOADER1 = 1;
+    private static final int LOADER2 = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,15 +76,11 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         toGetData();
     }
 
-    public void addCell(View view) {
-        
-    }
-
     private void toGetData() {
         mSpinner.setSelection(getPositionType(mDocument.type));
         dateDoc.setText(mDocument.dateToFormat());
 
-        getSupportLoaderManager().initLoader(0, null, this);
+        getSupportLoaderManager().initLoader(LOADER1, null, this);
     }
 
     private int getPositionType(String type) {
@@ -134,13 +134,25 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
 
     @NonNull
     @Override
-    public Loader<ArrayList<Cell>> onCreateLoader(int i, @Nullable Bundle bundle) {
-        return new DocumentCellsLoader(this, mDocument.id);
+    public Loader onCreateLoader(int i, @Nullable Bundle bundle) {
+
+        if (i == LOADER1) {
+            return new DocumentCellsLoader(this, mDocument.id);
+        } else if (i == LOADER2) {
+            long id = 0;
+            return new DocumentProductsCellLoader(this, mDocument.id, id);
+        }
+        return null;
     }
 
     @Override
-    public void onLoadFinished(@NonNull Loader<ArrayList<Cell>> loader, ArrayList<Cell> cells) {
-        showCells(cells);
+    public void onLoadFinished(Loader loader, Object data) {
+        int id = loader.getId();
+        if (id == LOADER1) {
+            showCells((ArrayList<Cell>) data);
+        } else if (id == LOADER2) {
+            //editCellStart(cell);
+        }
     }
 
     private void showCells(ArrayList<Cell> cells) {
@@ -148,7 +160,7 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         mDocCells.setActionListener(new DocumentCells.ActionListener() {
             @Override
             public void edit(Cell cell) {
-                edit(cell);
+                editCell(cell);
             }
         });
 
@@ -156,14 +168,35 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         addCell.setVisibility(View.VISIBLE);
     }
 
-    private void editCell(Cell cell){
-        CellProducts cellProducts = new CellProducts();
+    private void editCell(Cell cell) {
+
+        Bundle args = new Bundle();
+        args.putParcelable(CellProducts.EXTRA_CELL, cell);
+
+        getSupportLoaderManager().initLoader(LOADER2, args, this);
+    }
+
+    private void editCellStart(Cell cell, ArrayList<ProductsOfDocument> productsOfDocument) {
+        CellProducts cellProducts = CellProducts.newCellProducts(cell, productsOfDocument);
+        cellProducts.setActionListener(new CellProducts.ActionListener() {
+            @Override
+            public void back() {
+                getSupportLoaderManager().initLoader(LOADER1, null, DocumentView.this);
+            }
+
+            @Override
+            public void addBarCode(String barCode) {
+
+            }
+        });
+
         getSupportFragmentManager().beginTransaction().replace(R.id.docRoot, cellProducts).commit();
         addCell.setVisibility(View.INVISIBLE);
     }
 
+
     @Override
-    public void onLoaderReset(@NonNull Loader<ArrayList<Cell>> loader) {
+    public void onLoaderReset(Loader loader) {
     }
 
     public class SaveDocument extends AsyncTask<Document, Void, Long> {
@@ -188,4 +221,6 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
             mDocument.id = id;
         }
     }
+
+
 }

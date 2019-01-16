@@ -2,7 +2,6 @@ package android.a1ex.com.sklad_tsd.DataBase;
 
 import android.a1ex.com.sklad_tsd.Directories.Cell;
 import android.a1ex.com.sklad_tsd.Directories.Product;
-import android.a1ex.com.sklad_tsd.Documents.DataDocument.CellsOfDocument;
 import android.a1ex.com.sklad_tsd.Documents.DataDocument.ProductsOfDocument;
 import android.a1ex.com.sklad_tsd.Documents.Document;
 import android.content.ContentValues;
@@ -158,13 +157,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return cells;
     }
 
+    public Cell getCell(long id) {
+        Cell cell = new Cell();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = null;
+
+        try {
+            cursor = db.query(Cell.TABLE_NAME, null, Cell.TABLE_NAME +" = "+ id, null, null, null, null);
+
+            if (cursor.moveToNext()) {
+                while (!cursor.isAfterLast()) {
+                    cell.setId(cursor.getLong(cursor.getColumnIndex(Cell.COLUM_ID)));
+                    cell.setName(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
+                    cell.setAddress(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return cell;
+    }
+
     public ArrayList<Cell> getCellsDocument(long id) {
         ArrayList<Cell> cells = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = null;
 
         try {
-            String select = CellsOfDocument.TABLE_NAME + "." + CellsOfDocument.COLUM_ID_DOCUMENT + "=" + id;
+//            String select = CellsOfDocument.TABLE_NAME + "." + CellsOfDocument.COLUM_ID_DOCUMENT + "=" + id;
+            String select = ProductsOfDocument.TABLE_NAME + "." + ProductsOfDocument.COLUM_ID_DOCUMENT + "=" + id;
             cursor = db.query(Cell.TABLE_NAME, null, select, null, null, null, null);
 
             if (cursor.moveToNext()) {
@@ -185,7 +211,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-
         return cells;
     }
 
@@ -205,6 +230,41 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         return id;
+    }
+
+    public ArrayList<ProductsOfDocument> getProductsCellDocument(long idDocument, long idCell) {
+        ArrayList<ProductsOfDocument> products = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = null;
+
+        try {
+            cursor = db.query(Product.TABLE_NAME, null, null, null, null, null, null);
+
+            if (cursor.moveToNext()) {
+                while (!cursor.isAfterLast()) {
+                    ProductsOfDocument product = new ProductsOfDocument();
+
+                    Product mProduct = getProduct(cursor.getLong(cursor.getColumnIndex(ProductsOfDocument.COLUM_ID_PRODUCT)));
+                    product.setProduct(mProduct);
+
+                    Cell mCell = getCell(cursor.getLong(cursor.getColumnIndex(ProductsOfDocument.COLUM_ID_CELL)));
+                    product.setCell(mCell);
+
+                    product.setQuantity(cursor.getLong(cursor.getColumnIndex(ProductsOfDocument.COLUM_ID_GUANTITY)));
+
+                    products.add(product);
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return products;
     }
 
     public ArrayList<Product> getProducts() {
@@ -236,6 +296,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return products;
     }
+
+    public Product getProduct(long id) {
+        Product product = new Product();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = null;
+
+        try {
+            cursor = db.query(Product.TABLE_NAME, null, Product.COLUM_ID + " = " + id, null, null, null, null);
+
+            if (cursor.moveToNext()) {
+                while (!cursor.isAfterLast()) {
+                    product.setId(cursor.getLong(cursor.getColumnIndex(Product.COLUM_ID)));
+                    product.setName(cursor.getString(cursor.getColumnIndex(Product.COLUM_NAME)));
+                    product.setVendorCode(cursor.getString(cursor.getColumnIndex(Product.COLUM_VENDOR_CODE)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return product;
+    }
+
 
     private String dateToFormat(Date date) {
         String retval = "";

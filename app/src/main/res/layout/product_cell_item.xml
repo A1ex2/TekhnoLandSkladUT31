@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+
+    android:orientation="vertical"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall">
+
+
+    <TextView
+        android:id="@+id/nameProductCell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="имя продукта" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/vendorCodeProductCell"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            tools:text="Артикул" />
+
+        <TextView
+            android:id="@+id/quantityProductCell"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center_horizontal"
+            tools:text="1" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,6 +1,9 @@
 package android.a1ex.com.sklad_tsd.Directories;
 
-public class Product {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Product implements Parcelable {
     public static final String TABLE_NAME = "Products";
 
     public static final String COLUM_ID = "_id";
@@ -58,4 +61,36 @@ public class Product {
     public void setVendorCode(String vendorCode) {
         this.vendorCode = vendorCode;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.vendorCode);
+        dest.writeString(this.barcode);
+    }
+
+    protected Product(Parcel in) {
+        this.id = in.readLong();
+        this.name = in.readString();
+        this.vendorCode = in.readString();
+        this.barcode = in.readString();
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel source) {
+            return new Product(source);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 }

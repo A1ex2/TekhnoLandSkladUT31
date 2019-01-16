@@ -23,7 +23,6 @@ public class DocumentCells extends Fragment {
     private ArrayList<Cell> mCells;
     private RecyclerView mRecyclerView;
 
-
     public static final DocumentCells newDocumentCells(ArrayList<Cell> mCells) {
         DocumentCells documentCells = new DocumentCells();
 

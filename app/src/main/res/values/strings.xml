@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Sklad</string>
     <string name="add_doc">Добавить документ</string>
+    <string name="add_bar_code">добавить</string>
     <string name="open_list_doc">Открыть список</string>
     <string name="update_directories">Обновить справочники</string>
     <string name="input_residues">Ввод остатков</string>
@@ -17,6 +18,7 @@
     <string name="push_doc">Отправить документ в ЦБ</string>
     <string name="products">Товары</string>
     <string name="cells">Ячейки</string>
+    <string name="back">назад</string>
     <string-array name="type_doc">
         <item>ввод остатка</item>
         <item>пересчет</item>

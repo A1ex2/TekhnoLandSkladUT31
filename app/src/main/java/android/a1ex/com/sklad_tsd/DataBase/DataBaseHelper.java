@@ -39,11 +39,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + Product.COLUM_NAME + " TEXT NOT NULL, "
                 + Product.COLUM_VENDOR_CODE + " TEXT NOT NULL)");
 
-        db.execSQL("CREATE TABLE " + CellsOfDocument.TABLE_NAME + "("
-                + CellsOfDocument.COLUM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + CellsOfDocument.COLUM_ID_DOCUMENT + " INTEGER NOT NULL,"
-                + "FOREIGN KEY (" + CellsOfDocument.COLUM_ID_DOCUMENT + ") REFERENCES "
-                + Document.TABLE_NAME + "(" + Document.COLUM_ID + ")" + ")");
+//        db.execSQL("CREATE TABLE " + CellsOfDocument.TABLE_NAME + "("
+//                + CellsOfDocument.COLUM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+//                + CellsOfDocument.COLUM_ID_DOCUMENT + " INTEGER NOT NULL,"
+//                + "FOREIGN KEY (" + CellsOfDocument.COLUM_ID_DOCUMENT + ") REFERENCES "
+//                + Document.TABLE_NAME + "(" + Document.COLUM_ID + ")" + ")");
 
         db.execSQL("CREATE TABLE " + ProductsOfDocument.TABLE_NAME + "("
                 + ProductsOfDocument.COLUM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"

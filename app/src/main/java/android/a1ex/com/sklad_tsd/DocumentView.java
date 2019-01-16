@@ -32,6 +32,7 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
     private Document mDocument;
     private TextView dateDoc;
     private String[] typeDoc;
+    private Button addCell;
 
     private ArrayList<Cell> mCells;
 
@@ -41,7 +42,7 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document_residue_entry);
 
-        Button addCell = findViewById(R.id.addCell);
+        addCell = findViewById(R.id.addCell);
         addCell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,11 +153,13 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         });
 
         getSupportFragmentManager().beginTransaction().replace(R.id.docRoot, mDocCells).commitAllowingStateLoss();
+        addCell.setVisibility(View.VISIBLE);
     }
 
     private void editCell(Cell cell){
         CellProducts cellProducts = new CellProducts();
         getSupportFragmentManager().beginTransaction().replace(R.id.docRoot, cellProducts).commit();
+        addCell.setVisibility(View.INVISIBLE);
     }
 
     @Override

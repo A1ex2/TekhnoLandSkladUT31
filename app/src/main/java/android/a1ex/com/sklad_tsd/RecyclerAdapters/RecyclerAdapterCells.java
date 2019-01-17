@@ -68,7 +68,7 @@ public class RecyclerAdapterCells extends RecyclerView.Adapter<RecyclerAdapterCe
         }
 
         public void set(Cell cell){
-            mName.setText(cell.name);
+            mName.setText(cell.toString());
         }
     }
 }

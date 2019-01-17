@@ -1,6 +1,8 @@
 package android.a1ex.com.sklad_tsd;
 
 import android.a1ex.com.sklad_tsd.DataBase.DataBaseHelper;
+import android.a1ex.com.sklad_tsd.Directories.Cell;
+import android.a1ex.com.sklad_tsd.Directories.Product;
 import android.a1ex.com.sklad_tsd.Lists.ListCells;
 import android.a1ex.com.sklad_tsd.Lists.ListOfDocuments;
 import android.a1ex.com.sklad_tsd.Lists.ListProducts;
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 //                for (int i = 0; i < 500; i++) {
 //                    helper.insertCell(new Cell("Cell" + i, "Cell" + i));
 //                }
-
+//
 //                for (int i = 0; i < 500; i++) {
 //                    helper.insertProduct(new Product("Product " + i, "A" + i + "A" + i));
 //                }

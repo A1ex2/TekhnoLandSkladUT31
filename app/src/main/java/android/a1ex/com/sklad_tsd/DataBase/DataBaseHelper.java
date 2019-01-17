@@ -140,7 +140,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     Cell cell = new Cell();
                     cell.setId(cursor.getLong(cursor.getColumnIndex(Cell.COLUM_ID)));
                     cell.setName(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
-                    cell.setAddress(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
+                    cell.setAddress(cursor.getString(cursor.getColumnIndex(Cell.COLUM_ADDRESS)));
 
                     cells.add(cell);
                     cursor.moveToNext();

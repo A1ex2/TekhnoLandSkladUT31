@@ -59,6 +59,11 @@ public class Cell implements Parcelable {
         dest.writeString(this.name);
     }
 
+    @Override
+    public String toString() {
+        return name +"(" + address + ")";
+    }
+
     protected Cell(Parcel in) {
         this.id = in.readLong();
         this.address = in.readString();

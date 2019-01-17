@@ -25,6 +25,7 @@ public class Document implements Parcelable {
 
     public Document() {
         this.dateCreate = new Date();
+        this.id = -1;
     }
 
 

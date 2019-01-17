@@ -163,7 +163,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
 
         try {
-            cursor = db.query(Cell.TABLE_NAME, null, Cell.TABLE_NAME +" = "+ id, null, null, null, null);
+            cursor = db.query(Cell.TABLE_NAME, null, Cell.COLUM_ID +" = "+ id, null, null, null, null);
+
+            if (cursor.moveToNext()) {
+                while (!cursor.isAfterLast()) {
+                    cell.setId(cursor.getLong(cursor.getColumnIndex(Cell.COLUM_ID)));
+                    cell.setName(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
+                    cell.setAddress(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return cell;
+    }
+
+    public Cell getCellToBarCode(String barCode) {
+        Cell cell = new Cell();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = null;
+
+        try {
+            cursor = db.query(Cell.TABLE_NAME, null, Cell.COLUM_ADDRESS +" = "+ barCode, null, null, null, null);
 
             if (cursor.moveToNext()) {
                 while (!cursor.isAfterLast()) {

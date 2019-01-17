@@ -36,7 +36,6 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
     private TextView dateDoc;
     private String[] typeDoc;
     private Button addCell;
-    private ArrayList<Cell> mCells;
 
     private static final int LOADER1 = 1;
     private static final int LOADER2 = 2;
@@ -173,6 +172,11 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void editCell(Cell cell) {
+        if (mDocument.id == -1){
+            SaveDocument mSaveTask = new SaveDocument();
+            mSaveTask.execute(mDocument);
+            Toast.makeText(this, "документ записан", Toast.LENGTH_LONG).show();
+        }
 
         Bundle args = new Bundle();
         args.putParcelable(CellProducts.EXTRA_CELL, cell);
@@ -190,7 +194,7 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public void addBarCode(String barCode) {
-
+                Toast.makeText(DocumentView.this, barCode, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -208,23 +212,19 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
 
         @Override
         protected Long doInBackground(Document... documents) {
             DataBaseHelper helper = new DataBaseHelper(DocumentView.this);
-
             return helper.insertDocument(documents[0]);
         }
 
         @Override
         protected void onPostExecute(Long id) {
             super.onPostExecute(id);
-
             mDocument.id = id;
         }
     }
-
 
 }

@@ -139,8 +139,8 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         if (i == LOADER1) {
             return new DocumentCellsLoader(this, mDocument.id);
         } else if (i == LOADER2) {
-            long id = 0;
-            return new DocumentProductsCellLoader(this, mDocument.id, id);
+            Cell cell = bundle.getParcelable(CellProducts.EXTRA_CELL);
+            return new DocumentProductsCellLoader(this, mDocument.id, cell);
         }
         return null;
     }
@@ -151,7 +151,11 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         if (id == LOADER1) {
             showCells((ArrayList<Cell>) data);
         } else if (id == LOADER2) {
-            //editCellStart(cell);
+            Bundle mBundle = (Bundle) data;
+            Cell mCell = mBundle.getParcelable(CellProducts.EXTRA_CELL);
+            ArrayList<ProductsOfDocument> productsOfDocuments = mBundle.getParcelableArrayList(CellProducts.EXTRA_PRODUCTS_OF_DOCUMENT);
+
+            editCellStart(mCell, productsOfDocuments);
         }
     }
 
@@ -181,7 +185,7 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         cellProducts.setActionListener(new CellProducts.ActionListener() {
             @Override
             public void back() {
-                getSupportLoaderManager().initLoader(LOADER1, null, DocumentView.this);
+                getSupportLoaderManager().restartLoader(LOADER1, null, DocumentView.this);
             }
 
             @Override

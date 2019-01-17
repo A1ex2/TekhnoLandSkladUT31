@@ -58,7 +58,7 @@ public class CellProducts extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_document_cells, container, false);
+        View view = inflater.inflate(R.layout.fragment_cell_products, container, false);
 
         textViewCell = view.findViewById(R.id.textViewCell);
         textViewCell.setText(mCell.getAddress());

@@ -12,7 +12,7 @@ public class ProductsOfDocument implements Parcelable {
     public static final String COLUM_ID_DOCUMENT = "_idDocument";
     public static final String COLUM_ID_CELL = "_idCell";
     public static final String COLUM_ID_PRODUCT = "_idProduct";
-    public static final String COLUM_ID_GUANTITY = "quantity";
+    public static final String COLUM_GUANTITY = "quantity";
 
     private long id;
     private long idCell;

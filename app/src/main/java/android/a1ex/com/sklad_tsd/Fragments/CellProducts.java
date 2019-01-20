@@ -3,8 +3,6 @@ package android.a1ex.com.sklad_tsd.Fragments;
 
 import android.a1ex.com.sklad_tsd.Directories.Cell;
 import android.a1ex.com.sklad_tsd.Documents.DataDocument.ProductsOfDocument;
-import android.a1ex.com.sklad_tsd.RecyclerAdapters.RecyclerAdapterCells;
-import android.a1ex.com.sklad_tsd.RecyclerAdapters.RecyclerAdapterProducts;
 import android.a1ex.com.sklad_tsd.RecyclerAdapters.RecyclerAdapterProductsCell;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,6 +22,11 @@ import java.util.ArrayList;
 public class CellProducts extends Fragment {
     public static final String EXTRA_PRODUCTS_OF_DOCUMENT = "android.a1ex.com.sklad_tsd.extra.PRODUCTS_OF_DOCUMENT";
     public static final String EXTRA_CELL = "android.a1ex.com.sklad_tsd.extra.EXTRA_CELL";
+    public static final String EXTRA_PRODUCT = "android.a1ex.com.sklad_tsd.extra.EXTRA_PRODUCT";
+    public static final String EXTRA_FIND_BARCODE = "android.a1ex.com.sklad_tsd.extra.EXTRA_FIND_BARCODE";
+
+    public static final String EXTRA_PENDING_INTENT = "android.a1ex.com.sklad_tsd.extra.EXTRA_PENDING_INTENT";
+    public static final int REQUEST_CODE_SCAN = 1;
 
     private ArrayList<ProductsOfDocument> mProductsOfDocuments;
     private RecyclerView mRecyclerView;

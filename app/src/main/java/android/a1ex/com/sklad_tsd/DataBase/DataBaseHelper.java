@@ -49,7 +49,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + ProductsOfDocument.COLUM_ID_DOCUMENT + " INTEGER NOT NULL,"
                 + ProductsOfDocument.COLUM_ID_CELL + " INTEGER NOT NULL,"
                 + ProductsOfDocument.COLUM_ID_PRODUCT + " INTEGER NOT NULL,"
-                + ProductsOfDocument.COLUM_ID_GUANTITY + " INTEGER NOT NULL,"
+                + ProductsOfDocument.COLUM_GUANTITY + " INTEGER NOT NULL,"
                 + "FOREIGN KEY (" + ProductsOfDocument.COLUM_ID_DOCUMENT + ") REFERENCES "
                 + Document.TABLE_NAME + "(" + Document.COLUM_ID + "), "
                 + "FOREIGN KEY (" + ProductsOfDocument.COLUM_ID_CELL + ") REFERENCES "
@@ -163,14 +163,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
 
         try {
-            cursor = db.query(Cell.TABLE_NAME, null, Cell.COLUM_ID +" = "+ id, null, null, null, null);
+            cursor = db.query(Cell.TABLE_NAME, null, Cell.COLUM_ID + " = " + id, null, null, null, null);
 
             if (cursor.moveToNext()) {
-                while (!cursor.isAfterLast()) {
-                    cell.setId(cursor.getLong(cursor.getColumnIndex(Cell.COLUM_ID)));
-                    cell.setName(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
-                    cell.setAddress(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
-                }
+                cell.setId(cursor.getLong(cursor.getColumnIndex(Cell.COLUM_ID)));
+                cell.setName(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
+                cell.setAddress(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -189,14 +187,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
 
         try {
-            cursor = db.query(Cell.TABLE_NAME, null, Cell.COLUM_ADDRESS +" = "+ barCode, null, null, null, null);
+            String select = Cell.TABLE_NAME + "." + Cell.COLUM_ADDRESS + " = '" + barCode + "'";
+            cursor = db.query(Cell.TABLE_NAME, null, select, null, null, null, null);
 
             if (cursor.moveToNext()) {
-                while (!cursor.isAfterLast()) {
-                    cell.setId(cursor.getLong(cursor.getColumnIndex(Cell.COLUM_ID)));
-                    cell.setName(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
-                    cell.setAddress(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
-                }
+                cell.setId(cursor.getLong(cursor.getColumnIndex(Cell.COLUM_ID)));
+                cell.setName(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
+                cell.setAddress(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -215,17 +212,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
 
         try {
-//            String select = CellsOfDocument.TABLE_NAME + "." + CellsOfDocument.COLUM_ID_DOCUMENT + "=" + id;
             String select = ProductsOfDocument.TABLE_NAME + "." + ProductsOfDocument.COLUM_ID_DOCUMENT + "=" + id;
-            cursor = db.query(Cell.TABLE_NAME, null, select, null, null, null, null);
+            cursor = db.query(ProductsOfDocument.TABLE_NAME, null, select, null, null, null, null);
 
             if (cursor.moveToNext()) {
                 while (!cursor.isAfterLast()) {
-                    Cell cell = new Cell();
-                    cell.setId(cursor.getLong(cursor.getColumnIndex(Cell.COLUM_ID)));
-                    cell.setName(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
-                    cell.setAddress(cursor.getString(cursor.getColumnIndex(Cell.COLUM_NAME)));
 
+                    long idCell = cursor.getLong(cursor.getColumnIndex(ProductsOfDocument.COLUM_ID_CELL));
+                    Cell cell = getCell(idCell);
                     cells.add(cell);
                     cursor.moveToNext();
                 }
@@ -258,13 +252,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    public long insertProductCell(long idDocument, long idCell, long idProduct, long quantity) {
+        SQLiteDatabase db = getReadableDatabase();
+        long id = 0;
+
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(ProductsOfDocument.COLUM_ID_DOCUMENT, idDocument);
+            values.put(ProductsOfDocument.COLUM_ID_CELL, idCell);
+            values.put(ProductsOfDocument.COLUM_ID_PRODUCT, idProduct);
+            values.put(ProductsOfDocument.COLUM_GUANTITY, quantity);
+
+            id = db.insert(ProductsOfDocument.TABLE_NAME, null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
     public ArrayList<ProductsOfDocument> getProductsCellDocument(long idDocument, long idCell) {
         ArrayList<ProductsOfDocument> products = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = null;
 
         try {
-            cursor = db.query(Product.TABLE_NAME, null, null, null, null, null, null);
+            String select = ProductsOfDocument.TABLE_NAME + "."
+                    + ProductsOfDocument.COLUM_ID_DOCUMENT + " = " + idDocument + " AND "
+                    + ProductsOfDocument.COLUM_ID_CELL + " = " + idCell;
+            ;
+            cursor = db.query(ProductsOfDocument.TABLE_NAME, null, select, null, null, null, null);
 
             if (cursor.moveToNext()) {
                 while (!cursor.isAfterLast()) {
@@ -276,7 +294,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     Cell mCell = getCell(cursor.getLong(cursor.getColumnIndex(ProductsOfDocument.COLUM_ID_CELL)));
                     product.setCell(mCell);
 
-                    product.setQuantity(cursor.getLong(cursor.getColumnIndex(ProductsOfDocument.COLUM_ID_GUANTITY)));
+                    product.setQuantity(cursor.getLong(cursor.getColumnIndex(ProductsOfDocument.COLUM_GUANTITY)));
 
                     products.add(product);
                     cursor.moveToNext();
@@ -323,20 +341,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return products;
     }
 
-    public Product getProduct(long id) {
+    public Product getProductToBarCode(String barCode) {
         Product product = new Product();
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = null;
 
         try {
-            cursor = db.query(Product.TABLE_NAME, null, Product.COLUM_ID + " = " + id, null, null, null, null);
+            String select = Product.TABLE_NAME + "." + Product.COLUM_VENDOR_CODE + " = '" + barCode + "'";
+            cursor = db.query(Product.TABLE_NAME, null, select, null, null, null, null);
 
             if (cursor.moveToNext()) {
-                while (!cursor.isAfterLast()) {
-                    product.setId(cursor.getLong(cursor.getColumnIndex(Product.COLUM_ID)));
-                    product.setName(cursor.getString(cursor.getColumnIndex(Product.COLUM_NAME)));
-                    product.setVendorCode(cursor.getString(cursor.getColumnIndex(Product.COLUM_VENDOR_CODE)));
-                }
+                product.setId(cursor.getLong(cursor.getColumnIndex(Product.COLUM_ID)));
+                product.setName(cursor.getString(cursor.getColumnIndex(Product.COLUM_NAME)));
+                product.setVendorCode(cursor.getString(cursor.getColumnIndex(Product.COLUM_VENDOR_CODE)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -349,6 +366,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return product;
     }
 
+    public Product getProduct(long id) {
+        Product product = new Product();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = null;
+
+        try {
+            cursor = db.query(Product.TABLE_NAME, null, Product.COLUM_ID + " = " + id, null, null, null, null);
+
+            if (cursor.moveToNext()) {
+                product.setId(cursor.getLong(cursor.getColumnIndex(Product.COLUM_ID)));
+                product.setName(cursor.getString(cursor.getColumnIndex(Product.COLUM_NAME)));
+                product.setVendorCode(cursor.getString(cursor.getColumnIndex(Product.COLUM_VENDOR_CODE)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return product;
+    }
 
     private String dateToFormat(Date date) {
         String retval = "";
@@ -372,6 +412,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
         }
         return mDate;
+    }
+
+    public void deleteProductOfDocument(ProductsOfDocument productsOfDocument){
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(ProductsOfDocument.TABLE_NAME, productsOfDocument.COLUM_ID + "=" + productsOfDocument.getId(), null);
     }
 
     @Override

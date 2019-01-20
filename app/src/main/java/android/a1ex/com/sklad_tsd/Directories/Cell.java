@@ -48,6 +48,11 @@ public class Cell implements Parcelable {
     }
 
     @Override
+    public String toString() {
+        return name +"(" + address + ")";
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -57,11 +62,6 @@ public class Cell implements Parcelable {
         dest.writeLong(this.id);
         dest.writeString(this.address);
         dest.writeString(this.name);
-    }
-
-    @Override
-    public String toString() {
-        return name +"(" + address + ")";
     }
 
     protected Cell(Parcel in) {

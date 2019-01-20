@@ -2,6 +2,7 @@ package android.a1ex.com.sklad_tsd;
 
 import android.a1ex.com.sklad_tsd.DataBase.DataBaseHelper;
 import android.a1ex.com.sklad_tsd.Directories.Cell;
+import android.a1ex.com.sklad_tsd.Directories.Product;
 import android.a1ex.com.sklad_tsd.Documents.DataDocument.ProductsOfDocument;
 import android.a1ex.com.sklad_tsd.Documents.Document;
 import android.a1ex.com.sklad_tsd.Fragments.CellProducts;
@@ -10,6 +11,8 @@ import android.a1ex.com.sklad_tsd.Lists.ListOfDocuments;
 import android.a1ex.com.sklad_tsd.Loaders.DocumentCellsLoader;
 import android.a1ex.com.sklad_tsd.Loaders.DocumentProductsCellLoader;
 import android.a1ex.com.sklad_tsd.MyIntentService.IntentServiceDataBase;
+import android.a1ex.com.sklad_tsd.MyIntentService.MyServiceDataBase;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -31,8 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DocumentView extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
-    private Spinner mSpinner;
     private Document mDocument;
+    private Cell activeCell;
+
+    private Spinner mSpinner;
     private TextView dateDoc;
     private String[] typeDoc;
     private Button addCell;
@@ -124,9 +129,20 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == IntentServiceDataBase.REQUEST_CODE_SAVE_DOCUMENTS) {
+        if (requestCode == CellProducts.REQUEST_CODE_SCAN) {
             if (resultCode == RESULT_OK) {
-
+//                Cell mCell = data.getParcelableExtra(CellProducts.EXTRA_CELL);
+                activeCell = data.getParcelableExtra(CellProducts.EXTRA_CELL);
+                Product mProduct = data.getParcelableExtra(CellProducts.EXTRA_PRODUCT);
+                if (mProduct != null && mProduct.getBarcode() != null) {
+                    IntentServiceDataBase.insertProductCell(this, mDocument.getId(), activeCell.getId(), mProduct.getId(), 1);
+                } else {
+                    editCell(activeCell);
+                }
+            }
+        } else if (requestCode == IntentServiceDataBase.REQUEST_CODE_SAVE_PRODUCT_CELL){
+            if (resultCode == RESULT_OK) {
+                editCell(activeCell);
             }
         }
     }
@@ -151,10 +167,11 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
             showCells((ArrayList<Cell>) data);
         } else if (id == LOADER2) {
             Bundle mBundle = (Bundle) data;
-            Cell mCell = mBundle.getParcelable(CellProducts.EXTRA_CELL);
+//            Cell mCell = mBundle.getParcelable(CellProducts.EXTRA_CELL);
+            activeCell = mBundle.getParcelable(CellProducts.EXTRA_CELL);
             ArrayList<ProductsOfDocument> productsOfDocuments = mBundle.getParcelableArrayList(CellProducts.EXTRA_PRODUCTS_OF_DOCUMENT);
 
-            editCellStart(mCell, productsOfDocuments);
+            editCellStart(activeCell, productsOfDocuments);
         }
     }
 
@@ -163,7 +180,8 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         mDocCells.setActionListener(new DocumentCells.ActionListener() {
             @Override
             public void edit(Cell cell) {
-                editCell(cell);
+                activeCell = cell;
+                editCell(activeCell);
             }
         });
 
@@ -172,7 +190,7 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void editCell(Cell cell) {
-        if (mDocument.id == -1){
+        if (mDocument.id == -1) {
             SaveDocument mSaveTask = new SaveDocument();
             mSaveTask.execute(mDocument);
             Toast.makeText(this, "документ записан", Toast.LENGTH_LONG).show();
@@ -181,7 +199,8 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         Bundle args = new Bundle();
         args.putParcelable(CellProducts.EXTRA_CELL, cell);
 
-        getSupportLoaderManager().initLoader(LOADER2, args, this);
+//        getSupportLoaderManager().initLoader(LOADER2, args, this);
+        getSupportLoaderManager().restartLoader(LOADER2, args, this);
     }
 
     private void editCellStart(Cell cell, ArrayList<ProductsOfDocument> productsOfDocument) {
@@ -194,14 +213,27 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public void addBarCode(String barCode) {
-                Toast.makeText(DocumentView.this, barCode, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(DocumentView.this, MyServiceDataBase.class);
+                PendingIntent pendingIntent = createPendingResult(CellProducts.REQUEST_CODE_SCAN, intent, 0);
+
+                intent.putExtra(CellProducts.EXTRA_PENDING_INTENT, pendingIntent);
+                intent.putExtra(CellProducts.EXTRA_FIND_BARCODE, barCode);
+                intent.putExtra(CellProducts.EXTRA_CELL, activeCell);
+
+                startService(intent);
+//                Toast.makeText(DocumentView.this, barCode, Toast.LENGTH_LONG).show();
             }
         });
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.docRoot, cellProducts).commit();
+        getSupportFragmentManager().
+
+                beginTransaction().
+
+                replace(R.id.docRoot, cellProducts).
+
+                commit();
         addCell.setVisibility(View.INVISIBLE);
     }
-
 
     @Override
     public void onLoaderReset(Loader loader) {
@@ -226,5 +258,4 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
             mDocument.id = id;
         }
     }
-
 }

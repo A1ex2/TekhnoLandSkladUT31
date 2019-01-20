@@ -24,8 +24,14 @@ public class IntentServiceDataBase extends IntentService {
     public static final String EXTRA_SAVE_DOCUMENT = "android.a1ex.com.sklad_tsd.extra.EXTRA_SAVE_DOCUMENT";
     public static final String EXTRA_ID_DOCUMENT = "android.a1ex.com.sklad_tsd.extra.EXTRA_ID_DOCUMENT";
 
+    private static final String ACTION_SAVE_PRODUCT_CELL = "android.a1ex.com.sklad_tsd.action.ACTION_SAVE_PRODUCT_CELL";
+    public static final String EXTRA_PRODUCT = "android.a1ex.com.sklad_tsd.extra.EXTRA_PRODUCT";
+    public static final String EXTRA_CELL = "android.a1ex.com.sklad_tsd.extra.EXTRA_CELL";
+    public static final String EXTRA_GUANTITY = "android.a1ex.com.sklad_tsd.extra.EXTRA_GUANTITY";
+
     public static final int REQUEST_CODE_GET_DOCUMENTS = 11;
     public static final int REQUEST_CODE_SAVE_DOCUMENTS = 12;
+    public static final int REQUEST_CODE_SAVE_PRODUCT_CELL = 13;
 
 
     public IntentServiceDataBase() {
@@ -51,6 +57,20 @@ public class IntentServiceDataBase extends IntentService {
         activity.startService(intent);
     }
 
+    public static void insertProductCell(AppCompatActivity activity, long idDocument, long idCell, long idProduct, long quantity) {
+        Intent intent = new Intent(activity, IntentServiceDataBase.class);
+        PendingIntent pendingIntent = activity.createPendingResult(REQUEST_CODE_SAVE_PRODUCT_CELL, intent, 0);
+
+        intent.putExtra(EXTRA_PENDING_INTENT, pendingIntent);
+        intent.putExtra(EXTRA_ID_DOCUMENT, idDocument);
+        intent.putExtra(EXTRA_CELL, idCell);
+        intent.putExtra(EXTRA_PRODUCT, idProduct);
+        intent.putExtra(EXTRA_GUANTITY, quantity);
+
+        intent.setAction(ACTION_SAVE_PRODUCT_CELL);
+        activity.startService(intent);
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
@@ -68,6 +88,14 @@ public class IntentServiceDataBase extends IntentService {
 //                ArrayList<Document> documents = helper.getDocuments();
 //                result.putExtra(EXTRA_GET_DOCUMENTS, documents);
 
+            } else if (ACTION_SAVE_PRODUCT_CELL.equals(action)) {
+                long idDocument = intent.getLongExtra(EXTRA_ID_DOCUMENT, -1);
+                long idCell = intent.getLongExtra(EXTRA_CELL, -1);
+                long idProduct = intent.getLongExtra(EXTRA_PRODUCT, -1);
+                long quantity = intent.getLongExtra(EXTRA_GUANTITY, 1);
+
+                long id = helper.insertProductCell(idDocument, idCell, idProduct, quantity);
+                result.putExtra(EXTRA_GET_DOCUMENTS, id);
             }
             try {
                 pendingIntent.send(this, Activity.RESULT_OK, result);

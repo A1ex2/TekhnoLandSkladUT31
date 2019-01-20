@@ -3,12 +3,15 @@ package android.a1ex.com.sklad_tsd.Fragments;
 
 import android.a1ex.com.sklad_tsd.Directories.Cell;
 import android.a1ex.com.sklad_tsd.Documents.DataDocument.ProductsOfDocument;
+import android.a1ex.com.sklad_tsd.MainActivity;
 import android.a1ex.com.sklad_tsd.RecyclerAdapters.RecyclerAdapterProductsCell;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +19,20 @@ import android.view.ViewGroup;
 import android.a1ex.com.sklad_tsd.R;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class CellProducts extends Fragment {
-    public static final String EXTRA_PRODUCTS_OF_DOCUMENT = "android.a1ex.com.sklad_tsd.extra.PRODUCTS_OF_DOCUMENT";
+    public static final String EXTRA_PRODUCTS_OF_DOCUMENT = "android.a1ex.com.sklad_tsd.extra.EXTRA_PRODUCTS_OF_DOCUMENT";
+    public static final String EXTRA_PRODUCT_OF_DOCUMENT = "android.a1ex.com.sklad_tsd.extra.EXTRA_PRODUCT_OF_DOCUMENT";
     public static final String EXTRA_CELL = "android.a1ex.com.sklad_tsd.extra.EXTRA_CELL";
     public static final String EXTRA_PRODUCT = "android.a1ex.com.sklad_tsd.extra.EXTRA_PRODUCT";
     public static final String EXTRA_FIND_BARCODE = "android.a1ex.com.sklad_tsd.extra.EXTRA_FIND_BARCODE";
 
     public static final String EXTRA_PENDING_INTENT = "android.a1ex.com.sklad_tsd.extra.EXTRA_PENDING_INTENT";
     public static final int REQUEST_CODE_SCAN = 1;
+    public static final int REQUEST_CODE_DELETE = 2;
 
     private ArrayList<ProductsOfDocument> mProductsOfDocuments;
     private RecyclerView mRecyclerView;
@@ -74,6 +80,7 @@ public class CellProducts extends Fragment {
         mBarCode = view.findViewById(R.id.barCode);
 
         init();
+        setItemTouchHelper();
 
         return view;
     }
@@ -106,13 +113,36 @@ public class CellProducts extends Fragment {
 
     public interface ActionListener {
         public void back();
-
         public void addBarCode(String barCode);
+        public void deleteProductOfDocument(ProductsOfDocument productsOfDocument);
     }
 
     private ActionListener mListener;
 
     public void setActionListener(ActionListener actionListener) {
         mListener = actionListener;
+    }
+
+    private void setItemTouchHelper(){
+        ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder targer) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
+
+                final int fromPos = viewHolder.getAdapterPosition();
+                ProductsOfDocument productsOfDocument = mProductsOfDocuments.get(fromPos);
+                mListener.deleteProductOfDocument(productsOfDocument);
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 }

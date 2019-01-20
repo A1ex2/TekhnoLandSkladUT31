@@ -134,13 +134,17 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
 //                Cell mCell = data.getParcelableExtra(CellProducts.EXTRA_CELL);
                 activeCell = data.getParcelableExtra(CellProducts.EXTRA_CELL);
                 Product mProduct = data.getParcelableExtra(CellProducts.EXTRA_PRODUCT);
-                if (mProduct != null && mProduct.getBarcode() != null) {
+                if (mProduct != null && mProduct.getVendorCode() != null) {
                     IntentServiceDataBase.insertProductCell(this, mDocument.getId(), activeCell.getId(), mProduct.getId(), 1);
                 } else {
                     editCell(activeCell);
                 }
             }
-        } else if (requestCode == IntentServiceDataBase.REQUEST_CODE_SAVE_PRODUCT_CELL){
+        } else if (requestCode == IntentServiceDataBase.REQUEST_CODE_SAVE_PRODUCT_CELL) {
+            if (resultCode == RESULT_OK) {
+                editCell(activeCell);
+            }
+        } else if (requestCode == CellProducts.REQUEST_CODE_DELETE) {
             if (resultCode == RESULT_OK) {
                 editCell(activeCell);
             }
@@ -222,6 +226,17 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
 
                 startService(intent);
 //                Toast.makeText(DocumentView.this, barCode, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void deleteProductOfDocument(ProductsOfDocument productsOfDocument) {
+                Intent intent = new Intent(DocumentView.this, MyServiceDataBase.class);
+                PendingIntent pendingIntent = createPendingResult(CellProducts.REQUEST_CODE_DELETE, intent, 0);
+
+                intent.putExtra(CellProducts.EXTRA_PENDING_INTENT, pendingIntent);
+                intent.putExtra(CellProducts.EXTRA_PRODUCT_OF_DOCUMENT, productsOfDocument);
+
+                startService(intent);
             }
         });
 

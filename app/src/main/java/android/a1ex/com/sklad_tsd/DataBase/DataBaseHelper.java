@@ -416,7 +416,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void deleteProductOfDocument(ProductsOfDocument productsOfDocument){
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(ProductsOfDocument.TABLE_NAME, productsOfDocument.COLUM_ID + "=" + productsOfDocument.getId(), null);
+        db.delete(ProductsOfDocument.TABLE_NAME, ProductsOfDocument.COLUM_ID + "=" + productsOfDocument.getId(), null);
     }
 
     @Override

@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         helper = new DataBaseHelper(this);
 
-//        Intent intent = new Intent(this, Password.class);
-//        startActivityForResult(intent, 1);
+        Intent intent = new Intent(this, Password.class);
+        startActivityForResult(intent, 1);
 
         add_doc = findViewById(R.id.add_doc);
         add_doc.setOnClickListener(new View.OnClickListener() {
@@ -55,13 +55,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Запущена загрузка в фоне...", Toast.LENGTH_LONG).show();
 
-//                for (int i = 0; i < 500; i++) {
-//                    helper.insertCell(new Cell("Cell" + i, "Cell" + i));
-//                }
-//
-//                for (int i = 0; i < 500; i++) {
-//                    helper.insertProduct(new Product("Product " + i, "A" + i + "A" + i));
-//                }
+                for (int i = 0; i < 500; i++) {
+                    helper.insertCell(new Cell("Cell" + i, "Cell" + i));
+                }
+
+                for (int i = 0; i < 500; i++) {
+                    helper.insertProduct(new Product("Product " + i, "A" + i + "A" + i));
+                }
             }
         });
     }

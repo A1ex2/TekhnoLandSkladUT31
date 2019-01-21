@@ -194,6 +194,9 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void editCell(Cell cell) {
+        String typeDoc = mSpinner.getSelectedItem().toString();
+        mDocument.type = typeDoc;
+
         if (mDocument.id == -1) {
             SaveDocument mSaveTask = new SaveDocument();
             mSaveTask.execute(mDocument);

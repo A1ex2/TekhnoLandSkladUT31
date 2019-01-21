@@ -41,6 +41,7 @@ public class ListProducts extends AppCompatActivity {
         });
 
         initList();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void initList() {

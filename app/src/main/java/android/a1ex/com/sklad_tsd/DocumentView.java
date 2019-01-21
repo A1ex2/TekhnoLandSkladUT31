@@ -78,6 +78,8 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         }
 
         toGetData();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void toGetData() {

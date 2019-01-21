@@ -72,6 +72,7 @@ public class ListOfDocuments extends AppCompatActivity implements LoaderManager.
         });
 
         getSupportLoaderManager().initLoader(0, null, this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

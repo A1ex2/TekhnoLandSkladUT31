@@ -27,10 +27,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".Password" />
-        <activity android:name=".Lists.ListOfDocuments" />
-        <activity android:name=".DocumentView" />
-        <activity android:name=".Lists.ListCells" />
-        <activity android:name=".Lists.ListProducts" />
+        <activity
+            android:name=".Lists.ListOfDocuments"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".DocumentView"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Lists.ListCells"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Lists.ListProducts"
+            android:parentActivityName=".MainActivity" />
 
         <service
             android:name=".MyIntentService.IntentServiceDataBase"

@@ -213,7 +213,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         try {
             String select = ProductsOfDocument.TABLE_NAME + "." + ProductsOfDocument.COLUM_ID_DOCUMENT + "=" + id;
-            cursor = db.query(ProductsOfDocument.TABLE_NAME, null, select, null, null, null, null);
+            String group = ProductsOfDocument.COLUM_ID_CELL;
+
+            cursor = db.query(ProductsOfDocument.TABLE_NAME, null, select, null, group, null, null);
 
             if (cursor.moveToNext()) {
                 while (!cursor.isAfterLast()) {
@@ -294,6 +296,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     Cell mCell = getCell(cursor.getLong(cursor.getColumnIndex(ProductsOfDocument.COLUM_ID_CELL)));
                     product.setCell(mCell);
 
+                    product.setId(cursor.getLong(cursor.getColumnIndex(ProductsOfDocument.COLUM_ID)));
                     product.setQuantity(cursor.getLong(cursor.getColumnIndex(ProductsOfDocument.COLUM_GUANTITY)));
 
                     products.add(product);

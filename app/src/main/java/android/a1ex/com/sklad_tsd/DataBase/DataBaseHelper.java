@@ -10,10 +10,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.ksoap2.serialization.SoapObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static android.a1ex.com.sklad_tsd.MainActivity.soapParam_Response;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
@@ -420,6 +424,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void deleteProductOfDocument(ProductsOfDocument productsOfDocument){
         SQLiteDatabase db = getWritableDatabase();
         db.delete(ProductsOfDocument.TABLE_NAME, ProductsOfDocument.COLUM_ID + "=" + productsOfDocument.getId(), null);
+    }
+
+    public ArrayList<Cell> initialiseCellData() {
+        ArrayList<Cell> cellArrayList = new ArrayList<>();
+
+        int count = soapParam_Response.getPropertyCount();
+
+        for (int i = 0; i < count; i++) {
+            SoapObject property = (SoapObject) soapParam_Response.getProperty(i);
+            //Log.i("initialiseEmploy", ""+property.toString());
+            if (property instanceof SoapObject) {
+                SoapObject info = (SoapObject) property;
+                String name = info.getProperty("name").toString();
+                String address = info.getProperty("address").toString();
+                Cell cell = new Cell(name, address);
+                cellArrayList.add(cell);
+            }
+        }
+        return cellArrayList;
     }
 
     @Override

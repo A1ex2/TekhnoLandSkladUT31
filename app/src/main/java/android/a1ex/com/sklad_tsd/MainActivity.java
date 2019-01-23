@@ -150,18 +150,20 @@ public class MainActivity extends AppCompatActivity {
             MainActivity target = mTarget.get();
 
             switch (msg.what) {
-                case ACTION_GetCellList:
+                case ACTION_GetCellList: {
                     Log.d("LoadData", "true Load data");
                     DataBaseHelper dbHelper = new DataBaseHelper(getBaseContext());
                     ArrayList<Cell> mCells = dbHelper.initialiseCellData();
 
                     if (mCells != null) {
                         for (Cell cell : mCells) {
-                            dbHelper.insertCell(cell);
+                            if (dbHelper.getCellToBarCode(cell.getAddress()).getAddress() == null) {
+                                dbHelper.insertCell(cell);
+                            }
                         }
                     }
+                }
             }
         }
     }
-
 }

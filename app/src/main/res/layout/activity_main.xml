@@ -1,70 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
 
-    <Button
-        android:id="@+id/add_doc"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="2dp"
-        android:drawableStart="@drawable/ic_add_black_24dp"
-        android:text="@string/add_doc"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/list_doc"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingTop="50dp"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd">
 
-    <Button
-        android:id="@+id/list_doc"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        android:drawableStart="@drawable/ic_view_list_black_24dp"
-        android:text="@string/list_doc"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/add_doc"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/update_directories"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        android:drawableStart="@drawable/ic_update_black_24dp"
-        android:text="@string/update_directories"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@+id/list_doc"
-        app:layout_constraintStart_toStartOf="@+id/add_doc"
-        app:layout_constraintTop_toBottomOf="@+id/add_doc" />
-
-    <Button
-        android:id="@+id/list_products"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:onClick="onClick"
-        android:text="@string/products"
-        app:layout_constraintStart_toStartOf="@+id/update_directories"
-        app:layout_constraintTop_toBottomOf="@+id/update_directories" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/list_cells"
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/add_doc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_add_black_24dp"
+            android:text="@string/add_doc"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/list_doc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_view_list_black_24dp"
+            android:text="@string/list_doc"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="2dp"
-        android:onClick="onClick"
-        android:text="@string/cells"
-        app:layout_constraintEnd_toEndOf="@+id/update_directories"
-        app:layout_constraintTop_toBottomOf="@+id/update_directories" />
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/update_Cells"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_update_black_24dp"
+            android:text="@string/update_cells"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/update_Products"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_update_black_24dp"
+            android:text="@string/update_products"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
+
+        <Button
+            android:id="@+id/buttonClear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="Очистить" />
+
+        <Button
+            android:id="@+id/list_cells"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/cells" />
+
+        <Button
+            android:id="@+id/list_products"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/products" />
+    </LinearLayout>
+</LinearLayout>
+

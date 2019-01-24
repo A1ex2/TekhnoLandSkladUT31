@@ -4,6 +4,8 @@
     <string name="add_bar_code">добавить</string>
     <string name="open_list_doc">Открыть список</string>
     <string name="update_directories">Обновить справочники</string>
+    <string name="update_products">Обновить номенклатуру</string>
+    <string name="update_cells">Обновить ячейки</string>
     <string name="input_residues">Ввод остатков</string>
     <string name="password_form_header">Ваш логин/пароль...</string>
     <string name="login">логин</string>
@@ -19,6 +21,7 @@
     <string name="products">Товары</string>
     <string name="cells">Ячейки</string>
     <string name="back">назад</string>
+    <string name="textNoInternet">Отсутствует соединение с сервером. Проверьте подключение к Интернет.</string>
     <string-array name="type_doc">
         <item>ввод остатка</item>
         <item>пересчет</item>

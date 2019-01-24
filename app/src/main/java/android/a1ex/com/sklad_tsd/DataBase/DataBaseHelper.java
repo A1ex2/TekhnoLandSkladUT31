@@ -421,9 +421,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return mDate;
     }
 
-    public void deleteProductOfDocument(ProductsOfDocument productsOfDocument){
+    public void deleteProductOfDocument(ProductsOfDocument productsOfDocument) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(ProductsOfDocument.TABLE_NAME, ProductsOfDocument.COLUM_ID + "=" + productsOfDocument.getId(), null);
+    }
+
+    public void deleteCell(Cell cell) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(Cell.TABLE_NAME, cell.COLUM_ID + "=" + cell.getId(), null);
+    }
+
+    public void deleteCellsAll() {
+        ArrayList<Cell> mCells = getCells();
+        for (Cell cell : mCells) {
+            deleteCell(cell);
+        }
+    }
+
+    public void deleteProduct(Product product) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(Product.TABLE_NAME, Product.COLUM_ID + "=" + product.getId(), null);
+    }
+
+    public void deleteProductAll() {
+        ArrayList<Product> mProducts = getProducts();
+        for (Product product : mProducts) {
+            deleteProduct(product);
+        }
     }
 
     public ArrayList<Cell> initialiseCellData() {
@@ -443,6 +467,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
         }
         return cellArrayList;
+    }
+
+    public ArrayList<Product> initialiseProductData() {
+        ArrayList<Product> productArrayList = new ArrayList<>();
+
+        int count = soapParam_Response.getPropertyCount();
+
+        for (int i = 0; i < count; i++) {
+            SoapObject property = (SoapObject) soapParam_Response.getProperty(i);
+            //Log.i("initialiseEmploy", ""+property.toString());
+            if (property instanceof SoapObject) {
+                SoapObject info = (SoapObject) property;
+                String name = info.getProperty("name").toString();
+                String vendorCode = info.getProperty("vendorCode").toString();
+                String barcode = info.getProperty("barcode").toString();
+
+                Product product = new Product();
+                product.setName(name);
+                product.setVendorCode(vendorCode);
+                product.setBarcode(barcode);
+
+                productArrayList.add(product);
+            }
+        }
+        return productArrayList;
     }
 
     @Override

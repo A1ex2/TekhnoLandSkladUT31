@@ -48,6 +48,9 @@ public class SOAP_Dispatcher extends Thread {
             case MainActivity.ACTION_GetCellList:
                 getCells();
                 break;
+            case MainActivity.ACTION_GetProductList:
+                getProducts();
+                break;
         }
 
         if (soap_Response != null) {
@@ -84,6 +87,14 @@ public class SOAP_Dispatcher extends Thread {
 
         String method = "GetCellList";
         String action = NAMESPACE + "#returnCells:" + method;
+        SoapObject request = new SoapObject(NAMESPACE, method);
+        soap_Response = callWebService(request, action);
+    }
+
+    void getProducts() {
+
+        String method = "GetProductList";
+        String action = NAMESPACE + "#returnProducts:" + method;
         SoapObject request = new SoapObject(NAMESPACE, method);
         soap_Response = callWebService(request, action);
     }

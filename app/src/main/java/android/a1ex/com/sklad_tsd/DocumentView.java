@@ -13,7 +13,10 @@ import android.a1ex.com.sklad_tsd.Loaders.DocumentProductsCellLoader;
 import android.a1ex.com.sklad_tsd.MyIntentService.IntentServiceDataBase;
 import android.a1ex.com.sklad_tsd.MyIntentService.MyServiceDataBase;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,6 +47,10 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
 
     private static final int LOADER1 = 1;
     private static final int LOADER2 = 2;
+
+    private BroadcastReceiver br;
+    private final static String BROADCAST_ACTION = "android.intent.action.RECEIVE_SCANDATA_BROADCAST";
+    private final static String BROADCAST_EXTRA = "android.intent.extra.SCAN_BROADCAST_DATA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +87,28 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
         toGetData();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Toast.makeText(DocumentView.this, "scan", Toast.LENGTH_LONG).show();
+                Bundle bundle = intent.getExtras();
+
+                Object value = bundle.get(BROADCAST_EXTRA);
+                String barCode = value.toString();
+                processBarcode(barCode);
+            }
+        };
+
+        IntentFilter intFilt = new IntentFilter(BROADCAST_ACTION);
+        registerReceiver(br, intFilt);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(br);
     }
 
     private void toGetData() {
@@ -222,15 +251,15 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public void addBarCode(String barCode) {
-                Intent intent = new Intent(DocumentView.this, MyServiceDataBase.class);
-                PendingIntent pendingIntent = createPendingResult(CellProducts.REQUEST_CODE_SCAN, intent, 0);
-
-                intent.putExtra(CellProducts.EXTRA_PENDING_INTENT, pendingIntent);
-                intent.putExtra(CellProducts.EXTRA_FIND_BARCODE, barCode);
-                intent.putExtra(CellProducts.EXTRA_CELL, activeCell);
-
-                startService(intent);
-//                Toast.makeText(DocumentView.this, barCode, Toast.LENGTH_LONG).show();
+                processBarcode(barCode);
+//                Intent intent = new Intent(DocumentView.this, MyServiceDataBase.class);
+//                PendingIntent pendingIntent = createPendingResult(CellProducts.REQUEST_CODE_SCAN, intent, 0);
+//
+//                intent.putExtra(CellProducts.EXTRA_PENDING_INTENT, pendingIntent);
+//                intent.putExtra(CellProducts.EXTRA_FIND_BARCODE, barCode);
+//                intent.putExtra(CellProducts.EXTRA_CELL, activeCell);
+//
+//                startService(intent);
             }
 
             @Override
@@ -277,5 +306,16 @@ public class DocumentView extends AppCompatActivity implements LoaderManager.Loa
             super.onPostExecute(id);
             mDocument.id = id;
         }
+    }
+
+    private void processBarcode(String barCode) {
+        Intent intent = new Intent(DocumentView.this, MyServiceDataBase.class);
+        PendingIntent pendingIntent = createPendingResult(CellProducts.REQUEST_CODE_SCAN, intent, 0);
+
+        intent.putExtra(CellProducts.EXTRA_PENDING_INTENT, pendingIntent);
+        intent.putExtra(CellProducts.EXTRA_FIND_BARCODE, barCode);
+        intent.putExtra(CellProducts.EXTRA_CELL, activeCell);
+
+        startService(intent);
     }
 }

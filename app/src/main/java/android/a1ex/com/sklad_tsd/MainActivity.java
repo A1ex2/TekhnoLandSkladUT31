@@ -9,7 +9,10 @@ import android.a1ex.com.sklad_tsd.Lists.ListCells;
 import android.a1ex.com.sklad_tsd.Lists.ListOfDocuments;
 import android.a1ex.com.sklad_tsd.Lists.ListProducts;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ksoap2.SoapFault;
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int ACTION_GetCellList = 10;
     public static final int ACTION_GetProductList = 11;
     public static final int ACTION_ConnectionError = 0;
+
     private boolean entrance;
     static final String STATE_ENTRANCE = "STATE_ENTRANCE";
     public static UIManager uiManager;
